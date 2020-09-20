@@ -1,5 +1,5 @@
-import 'package:Loginout/providers/ApiConnector.dart';
-import 'package:Loginout/screen/wellcomescreen.dart';
+import './providers/ApiConnector.dart';
+import './screen/wellcomescreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart'
     show MultiProvider, ChangeNotifierProvider;

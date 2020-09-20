@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
 import 'dart:async' show Timer;
+
+import 'package:flutter/material.dart';
 
 class TimerApp extends StatefulWidget {
   final bool isActive;

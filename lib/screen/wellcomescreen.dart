@@ -1,5 +1,5 @@
-import 'package:Loginout/providers/ApiConnector.dart';
-import 'package:Loginout/screen/signin_out_screen.dart';
+import '../providers/ApiConnector.dart';
+import '../screen/signin_out_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocation/geolocation.dart';
 import 'package:provider/provider.dart' show Provider;
@@ -27,10 +27,13 @@ class WellcomeState extends State<WellcomeScreen> {
   getPermission() async {
     final GeolocationResult result =
         await Geolocation.requestLocationPermission(
-            permission: const LocationPermission(
-      android: LocationPermissionAndroid.fine,
-      ios: LocationPermissionIOS.always,
-    ));
+      permission: const LocationPermission(
+        android: LocationPermissionAndroid.fine,
+        ios: LocationPermissionIOS.always,
+      ),
+      openSettingsIfDenied: true,
+    );
+
     return result;
   }
 

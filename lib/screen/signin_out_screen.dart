@@ -240,7 +240,9 @@ class _SignInOutScreenState extends State<SignInOutScreen> {
     auth = await _databaseHelper.fetchAuthUser();
     loginSession = await _databaseHelper.fetchLoginSession();
     mac = await initPlatformState();
-    Geolocation.enableLocationServices().then((val) async {
+    bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
+    if (isIOS) {
+      print('Is ios running');
       LocationResult result;
       Geolocation.currentLocation(accuracy: LocationAccuracy.best)
           .listen((location) async {
@@ -248,6 +250,8 @@ class _SignInOutScreenState extends State<SignInOutScreen> {
           print('location found');
           result = location;
           loc = result.location;
+          print(loc.latitude);
+          print(loc.longitude);
           final coordinates = new Coordinates(loc.latitude, loc.longitude);
           await Geocoder.local
               .findAddressesFromCoordinates(coordinates)
@@ -255,16 +259,43 @@ class _SignInOutScreenState extends State<SignInOutScreen> {
             setState(() {
               postCode = value.first.postalCode;
               print(postCode);
-              print(mac);
               first = value.first.addressLine;
             });
+          }).catchError((e) {
+            print('error');
           });
         }
       });
-      print(first);
-    }).catchError((e) {
-      print(e);
-    });
+    } else {
+      print('Is abdroid running');
+      Geolocation.enableLocationServices().then((val) async {
+        LocationResult result;
+        Geolocation.currentLocation(accuracy: LocationAccuracy.best)
+            .listen((location) async {
+          if (location.isSuccessful) {
+            print('location found');
+            result = location;
+            loc = result.location;
+            print(loc.latitude);
+            print(loc.longitude);
+            final coordinates = new Coordinates(loc.latitude, loc.longitude);
+            await Geocoder.local
+                .findAddressesFromCoordinates(coordinates)
+                .then((value) {
+              setState(() {
+                postCode = value.first.postalCode;
+                print(postCode);
+                first = value.first.addressLine;
+              });
+            }).catchError((e) {
+              print('error');
+            });
+          }
+        });
+      }).catchError((e) {
+        print(e);
+      });
+    }
   }
 
   Future<String> initPlatformState() async {

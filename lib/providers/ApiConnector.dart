@@ -1,4 +1,5 @@
 import 'dart:convert' show json;
+import 'dart:io';
 
 import 'package:Loginout/model/auth.dart';
 import 'package:Loginout/model/logginSession.dart';
@@ -7,8 +8,9 @@ import 'package:Loginout/providers/helper.dart';
 import 'package:flutter/foundation.dart' show ChangeNotifier;
 import 'package:flutter/services.dart' show PlatformException;
 import 'package:geocoder/geocoder.dart' show Address, Coordinates, Geocoder;
-import 'package:geolocation/geolocation.dart'
-    show Geolocation, Location, LocationResult;
+import 'package:geolocation/geolocation.dart';
+//qimport 'package:geolocation/geolocation.dart';
+//  show Geolocation, GeolocationResult, Location, LocationPermission, LocationResult;q
 import 'package:get_mac/get_mac.dart' show GetMac;
 
 import 'package:http/http.dart' show post, put;
@@ -138,25 +140,48 @@ class ApiConnector with ChangeNotifier {
     return returnVal;
   }
 
+  getPermission() async {
+    final GeolocationResult result =
+        await Geolocation.requestLocationPermission(
+      permission: const LocationPermission(
+        android: LocationPermissionAndroid.fine,
+        ios: LocationPermissionIOS.always,
+      ),
+      openSettingsIfDenied: true,
+    );
+
+    return result;
+  }
+
   Future<void> enableLServices() async {
+    await getPermission();
     Location loc;
     DatabaseHelper _databaseHelper = DatabaseHelper();
+
     auth = await _databaseHelper.fetchAuthUser();
-    await Geolocation.enableLocationServices();
-    LocationResult result = await Geolocation.lastKnownLocation();
-    loc = result.location;
-    lat = loc.latitude;
-    lon = loc.longitude;
-    final coordinates = new Coordinates(loc.latitude, loc.longitude);
-    addreses = await Geocoder.local
-        .findAddressesFromCoordinates(coordinates)
-        .catchError((e) async {
-      print('error');
-      addreses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
+
+    if (Platform.isAndroid) {
+      await Geolocation.enableLocationServices();
+    }
+    LocationResult result; //= await Geolocation.lastKnownLocation();
+    Geolocation.currentLocation(accuracy: LocationAccuracy.best)
+        .listen((location) async {
+      result = location;
+      loc = result.location;
+      lat = loc.latitude;
+      lon = loc.longitude;
+      final coordinates = new Coordinates(loc.latitude, loc.longitude);
+      addreses = await Geocoder.local
+          .findAddressesFromCoordinates(coordinates)
+          .catchError((e) async {
+        print('error');
+        addreses =
+            await Geocoder.local.findAddressesFromCoordinates(coordinates);
+      });
+      postCode = addreses.first.postalCode;
+      address = addreses.first.addressLine;
+      mac = await initPlatformState();
     });
-    postCode = addreses.first.postalCode;
-    address = addreses.first.addressLine;
-    mac = await initPlatformState();
   }
 
   Future<String> initPlatformState() async {
