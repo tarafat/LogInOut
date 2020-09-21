@@ -98,8 +98,7 @@ class LabelText extends StatelessWidget {
         children: <Widget>[
           Text(
             '$value',
-            style: TextStyle(
-                color: Colors.white, fontSize: 55, fontWeight: FontWeight.bold),
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           ),
           Text(
             '$label',

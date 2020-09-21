@@ -248,28 +248,20 @@ class _SignInOutScreenState extends State<SignInOutScreen> {
       Geolocation.currentLocation(accuracy: LocationAccuracy.best)
           .listen((location) async {
         if (location.isSuccessful) {
-          print('location found');
+          print('coordinates found');
           result = location;
           loc = result.location;
           print(loc.latitude.toStringAsFixed(4));
           print(loc.longitude);
+          //final coordinates = new Coordinates(23.7750021, 90.4242431);
           final coordinates = new Coordinates(loc.latitude, loc.longitude);
-          await Geocoder.local
-              .findAddressesFromCoordinates(coordinates)
-              .then((value) async {
-            setState(() {
-              print(value.first);
-              postCode = value.first.postalCode;
-              print(postCode);
-              first = value.first.addressLine;
-            });
-          }).catchError((e) {
-            print('error');
-            setState(() {
-              postCode = '';
-              print(postCode);
-              first = '';
-            });
+          var address =
+              await Geocoder.local.findAddressesFromCoordinates(coordinates);
+          setState(() {
+            print(address.first);
+            postCode = address.first.postalCode;
+            print(postCode);
+            first = address.first.addressLine;
           });
         }
       });
