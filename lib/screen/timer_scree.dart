@@ -93,6 +93,7 @@ class LabelText extends StatelessWidget {
         color: Colors.blue[300],
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Text(

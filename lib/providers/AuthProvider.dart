@@ -22,7 +22,7 @@ class AuthProvider with ChangeNotifier {
       final response = await post(
         url,
         body: json.encode({"id": id, "password": pw}),
-      ).timeout(Duration(seconds: 5));
+      ).timeout(Duration(seconds: 50));
 
       if (response.statusCode == 200) {
         _token = response.headers['authorization'];

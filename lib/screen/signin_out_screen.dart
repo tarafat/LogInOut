@@ -251,19 +251,25 @@ class _SignInOutScreenState extends State<SignInOutScreen> {
           print('location found');
           result = location;
           loc = result.location;
-          print(loc.latitude);
+          print(loc.latitude.toStringAsFixed(4));
           print(loc.longitude);
           final coordinates = new Coordinates(loc.latitude, loc.longitude);
           await Geocoder.local
               .findAddressesFromCoordinates(coordinates)
-              .then((value) {
+              .then((value) async {
             setState(() {
+              print(value.first);
               postCode = value.first.postalCode;
               print(postCode);
               first = value.first.addressLine;
             });
           }).catchError((e) {
             print('error');
+            setState(() {
+              postCode = '';
+              print(postCode);
+              first = '';
+            });
           });
         }
       });

@@ -3,7 +3,7 @@ import 'dart:io' show Platform;
 
 import 'package:flutter/foundation.dart' show ChangeNotifier;
 import 'package:flutter/services.dart' show PlatformException;
-import 'package:geocoder/geocoder.dart' show Address, Coordinates, Geocoder;
+import 'package:geocoder/geocoder.dart';
 import 'package:geolocation/geolocation.dart'
     show
         Geolocation,
