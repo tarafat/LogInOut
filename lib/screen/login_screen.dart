@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart' show Provider;
+
 import './wellcomescreen.dart';
 import '../providers/AuthProvider.dart';
 
@@ -16,13 +17,11 @@ class LoginState extends State<LoginScreen> {
   bool loginSuccess;
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -30,7 +29,6 @@ class LoginState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     final deviceHeight = MediaQuery.of(context).size.height;
     final deviceWidth = MediaQuery.of(context).size.width;
-    // TODO: implement build
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -67,27 +65,6 @@ class LoginState extends State<LoginScreen> {
                 const SizedBox(height: 80.0),
                 logInButton(),
                 Spacer(flex: 2),
-                // Container(
-                //   child: Text('Not registered yet ?',
-                //       style: TextStyle(fontSize: 14, color: Colors.grey[600])),
-                // ),
-                // Container(
-                //   height: deviceHeight * .06,
-                //   width: deviceWidth * .8,
-                //   child: FlatButton(
-                //     textColor: Colors.blueAccent[400],
-                //     splashColor: Colors.grey,
-                //     shape: RoundedRectangleBorder(
-                //       borderRadius: new BorderRadius.circular(30.0),
-                //     ),
-                //     child:
-                //         Text("Rregister Now", style: TextStyle(fontSize: 14)),
-                //     onPressed: () {
-                //       Navigator.of(context)
-                //           .pushReplacementNamed(SignUpScreen.routeName);
-                //     },
-                //  ),
-                // ),
               ],
             ),
           ),

@@ -1,19 +1,26 @@
 import 'dart:convert' show json;
-import 'dart:io';
+import 'dart:io' show Platform;
 
-import 'package:Loginout/model/auth.dart';
-import 'package:Loginout/model/logginSession.dart';
-import 'package:Loginout/providers/db_provider.dart';
-import 'package:Loginout/providers/helper.dart';
 import 'package:flutter/foundation.dart' show ChangeNotifier;
 import 'package:flutter/services.dart' show PlatformException;
 import 'package:geocoder/geocoder.dart' show Address, Coordinates, Geocoder;
-import 'package:geolocation/geolocation.dart';
-//qimport 'package:geolocation/geolocation.dart';
-//  show Geolocation, GeolocationResult, Location, LocationPermission, LocationResult;q
+import 'package:geolocation/geolocation.dart'
+    show
+        Geolocation,
+        GeolocationResult,
+        Location,
+        LocationPermission,
+        LocationResult,
+        LocationPermissionAndroid,
+        LocationPermissionIOS,
+        LocationAccuracy;
 import 'package:get_mac/get_mac.dart' show GetMac;
-
 import 'package:http/http.dart' show post, put;
+
+import '../model/auth.dart';
+import '../model/logginSession.dart';
+import '../providers/db_provider.dart';
+import '../providers/helper.dart';
 
 class ApiConnector with ChangeNotifier {
   double lat;

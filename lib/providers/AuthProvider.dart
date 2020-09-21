@@ -1,11 +1,11 @@
 import 'dart:convert' show json;
 
-import 'package:Loginout/providers/helper.dart';
 import 'package:flutter/foundation.dart' show ChangeNotifier;
 import 'package:http/http.dart' show post;
 
 import '../providers/db_provider.dart';
 import '../model/auth.dart';
+import '../providers/helper.dart';
 
 class AuthProvider with ChangeNotifier {
   String _user;

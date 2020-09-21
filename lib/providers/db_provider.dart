@@ -1,12 +1,12 @@
 import 'dart:io' show Directory;
 
-import 'package:Loginout/model/logginSession.dart';
 import 'package:sqflite/sqflite.dart'
     show Database, ConflictAlgorithm, openDatabase;
 import 'package:path_provider/path_provider.dart'
     show getApplicationDocumentsDirectory;
 import 'package:path/path.dart' show join;
 
+import '../model/logginSession.dart';
 import '../model/auth.dart';
 
 class DatabaseHelper {

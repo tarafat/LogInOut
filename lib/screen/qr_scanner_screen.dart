@@ -1,8 +1,9 @@
-import 'package:Loginout/providers/ApiConnector.dart';
-import 'package:Loginout/screen/signin_out_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart' show Provider;
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+
+import '../providers/ApiConnector.dart';
+import '../screen/signin_out_screen.dart';
 
 class QRViewScreen extends StatefulWidget {
   static const routeName = "/QrScanScreen";

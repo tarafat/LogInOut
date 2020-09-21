@@ -1,13 +1,14 @@
-import './providers/ApiConnector.dart';
-import './screen/wellcomescreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart'
     show MultiProvider, ChangeNotifierProvider;
+
 import './screen/splashscreen.dart';
 import './screen/login_screen.dart';
 import './screen/signin_out_screen.dart';
 import './screen/qr_scanner_screen.dart';
-import 'providers/AuthProvider.dart';
+import './providers/ApiConnector.dart';
+import './screen/wellcomescreen.dart';
+import './providers/AuthProvider.dart';
 
 void main() {
   runApp(MyApp());

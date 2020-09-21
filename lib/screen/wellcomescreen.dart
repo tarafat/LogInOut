@@ -1,9 +1,15 @@
-import '../providers/ApiConnector.dart';
-import '../screen/signin_out_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocation/geolocation.dart';
+import 'package:geolocation/geolocation.dart'
+    show
+        Geolocation,
+        GeolocationResult,
+        LocationPermission,
+        LocationPermissionAndroid,
+        LocationPermissionIOS;
 import 'package:provider/provider.dart' show Provider;
 
+import '../providers/ApiConnector.dart';
+import '../screen/signin_out_screen.dart';
 import '../providers/db_provider.dart';
 
 class WellcomeScreen extends StatefulWidget {

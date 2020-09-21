@@ -1,12 +1,5 @@
 import 'dart:async';
 
-import 'package:Loginout/model/auth.dart';
-import 'package:Loginout/model/logginSession.dart';
-import 'package:Loginout/providers/ApiConnector.dart';
-import 'package:Loginout/providers/db_provider.dart';
-import 'package:Loginout/screen/login_screen.dart';
-import 'package:Loginout/screen/qr_scanner_screen.dart';
-import 'package:Loginout/screen/timer_scree.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show PlatformException;
 import 'package:geocoder/geocoder.dart' show Coordinates, Geocoder;
@@ -14,6 +7,14 @@ import 'package:geolocation/geolocation.dart'
     show Geolocation, Location, LocationAccuracy, LocationResult;
 import 'package:get_mac/get_mac.dart' show GetMac;
 import 'package:provider/provider.dart' show Provider;
+
+import '../model/auth.dart';
+import '../model/logginSession.dart';
+import '../providers/ApiConnector.dart';
+import '../providers/db_provider.dart';
+import '../screen/login_screen.dart';
+import '../screen/qr_scanner_screen.dart';
+import '../screen/timer_scree.dart';
 
 class SignInOutScreen extends StatefulWidget {
   static const routeName = "/SignInOutScreen";
@@ -80,7 +81,7 @@ class _SignInOutScreenState extends State<SignInOutScreen> {
       child: Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
-          title: Text('Service Tracker'),
+          title: const Text('Service Tracker'),
         ),
         body: SingleChildScrollView(
           child: Container(
@@ -104,7 +105,7 @@ class _SignInOutScreenState extends State<SignInOutScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
-                              Text(
+                              const Text(
                                 'ID : ',
                                 style: TextStyle(fontSize: 15),
                               ),
@@ -125,7 +126,7 @@ class _SignInOutScreenState extends State<SignInOutScreen> {
                           padding: EdgeInsets.all(8),
                           child: Row(
                             children: <Widget>[
-                              Text(
+                              const Text(
                                 'Location : ',
                                 style: TextStyle(fontSize: 15),
                               ),
@@ -168,7 +169,7 @@ class _SignInOutScreenState extends State<SignInOutScreen> {
                                 padding: EdgeInsets.all(8),
                                 child: Row(
                                   children: <Widget>[
-                                    Text(
+                                    const Text(
                                       'Start Time : ',
                                       style: TextStyle(fontSize: 15),
                                     ),
@@ -183,7 +184,7 @@ class _SignInOutScreenState extends State<SignInOutScreen> {
                               ),
                             ),
                       qrText == null
-                          ? Text(
+                          ? const Text(
                               'Scan your QR code to active session',
                               style:
                                   TextStyle(color: Colors.blue, fontSize: 15),
@@ -208,7 +209,7 @@ class _SignInOutScreenState extends State<SignInOutScreen> {
           borderRadius: new BorderRadius.circular(20.0),
         ),
         color: Colors.blueAccent,
-        child: Text("Scan Qr Code", style: TextStyle(fontSize: 20)),
+        child: const Text("Scan Qr Code", style: TextStyle(fontSize: 20)),
         textColor: Colors.white,
         splashColor: Colors.grey,
         onPressed: () {
@@ -227,7 +228,7 @@ class _SignInOutScreenState extends State<SignInOutScreen> {
           borderRadius: new BorderRadius.circular(20.0),
         ),
         color: Colors.blueAccent,
-        child: Text("Logout", style: TextStyle(fontSize: 20)),
+        child: const Text("Logout", style: TextStyle(fontSize: 20)),
         textColor: Colors.white,
         splashColor: Colors.grey,
         onPressed: _showDialog,
@@ -287,8 +288,17 @@ class _SignInOutScreenState extends State<SignInOutScreen> {
                 print(postCode);
                 first = value.first.addressLine;
               });
-            }).catchError((e) {
+            }).catchError((e) async {
               print('error');
+              await Geocoder.local
+                  .findAddressesFromCoordinates(coordinates)
+                  .then((value) {
+                setState(() {
+                  postCode = value.first.postalCode;
+                  print(postCode);
+                  first = value.first.addressLine;
+                });
+              });
             });
           }
         });
@@ -315,23 +325,23 @@ class _SignInOutScreenState extends State<SignInOutScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: new Text(
+          title: const Text(
             "Add Your Comment",
             style: TextStyle(color: Colors.blue),
           ),
           content: TextField(
-            decoration: new InputDecoration(hintText: "Should Not Be Empty"),
+            decoration: const InputDecoration(hintText: "Should Not Be Empty"),
             controller: _c,
           ),
           actions: <Widget>[
             new RaisedButton(
-              child: new Text("Close"),
+              child: const Text("Close"),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             new RaisedButton(
-              child: new Text("Submit"),
+              child: const Text("Submit"),
               onPressed: () {
                 comment = _c.text.trim();
                 print(comment.length);
@@ -342,7 +352,7 @@ class _SignInOutScreenState extends State<SignInOutScreen> {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: new Text(
+                        title: const Text(
                           "Comment Can't be Empty",
                           style: TextStyle(color: Colors.blue),
                         ),
@@ -352,7 +362,7 @@ class _SignInOutScreenState extends State<SignInOutScreen> {
                                 Navigator.of(context).pop();
                                 _showDialog();
                               },
-                              child: Text('Try Again'))
+                              child: const Text('Try Again'))
                         ],
                       );
                     },
