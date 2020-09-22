@@ -256,7 +256,8 @@ class _SignInOutScreenState extends State<SignInOutScreen> {
           //final coordinates = new Coordinates(23.7750021, 90.4242431);
           final coordinates = new Coordinates(loc.latitude, loc.longitude);
           var address =
-              await Geocoder.local.findAddressesFromCoordinates(coordinates);
+              await Geocoder.google('AIzaSyBpwIv-tJRAzBvtP2XQMOLFZr5a2d7OMgM')
+                  .findAddressesFromCoordinates(coordinates);
           setState(() {
             print(address.first);
             postCode = address.first.postalCode;
