@@ -29,7 +29,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.3
   qr_code_scanner: ^0.0.13 #for qr code scanning
-  geolocation: ^1.1.2
+  geolocation: ^1.0.2
   geocoder: ^0.2.1
   provider: ^4.1.2
   http: ^0.12.1

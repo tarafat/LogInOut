@@ -106,7 +106,7 @@ class ApiConnector with ChangeNotifier {
         returnVal = false;
       }
     });
-    notifyListeners();
+    //notifyListeners();
     return returnVal;
   }
 
@@ -161,34 +161,24 @@ class ApiConnector with ChangeNotifier {
   }
 
   Future<void> enableLServices() async {
-    await getPermission();
     Location loc;
     DatabaseHelper _databaseHelper = DatabaseHelper();
 
     auth = await _databaseHelper.fetchAuthUser();
 
     if (Platform.isAndroid) {
+      print('is andoid');
       await Geolocation.enableLocationServices();
     }
-    LocationResult result; //= await Geolocation.lastKnownLocation();
-    Geolocation.currentLocation(accuracy: LocationAccuracy.best)
-        .listen((location) async {
-      result = location;
-      loc = result.location;
-      lat = loc.latitude;
-      lon = loc.longitude;
-      final coordinates = new Coordinates(loc.latitude, loc.longitude);
-      addreses = await Geocoder.local
-          .findAddressesFromCoordinates(coordinates)
-          .catchError((e) async {
-        print('error');
-        addreses =
-            await Geocoder.local.findAddressesFromCoordinates(coordinates);
-      });
-      postCode = addreses.first.postalCode;
-      address = addreses.first.addressLine;
-      mac = await initPlatformState();
-    });
+    LocationResult result = await Geolocation.lastKnownLocation();
+    loc = result.location;
+    lat = loc.latitude;
+    lon = loc.longitude;
+    final coordinates = new Coordinates(loc.latitude, loc.longitude);
+    addreses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
+    postCode = addreses.first.postalCode;
+    address = addreses.first.addressLine;
+    mac = await initPlatformState();
   }
 
   Future<String> initPlatformState() async {

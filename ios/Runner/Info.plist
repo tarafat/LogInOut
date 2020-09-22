@@ -23,17 +23,17 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>io.flutter.embedded_views_preview</key>
-<true/>
-<key>NSCameraUsageDescription</key>
-<string>This app needs camera access to scan QR codes</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Reason why app needs location</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Reason why app needs location</string>
+    <true/>
+	<key>NSLocationWhenInUseUsageDescription</key>
+    <string>Reason why app needs location</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>Reason why app needs location</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>Reason why app needs location</string>
+    <key>NSCameraUsageDescription</key>
+    <string>This app needs camera access to scan QR codes</string>
 	<key>NSLocationUsageDescription</key>
 	<string>Older devices need location.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Reason why app needs location</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

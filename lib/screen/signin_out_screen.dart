@@ -42,18 +42,20 @@ class _SignInOutScreenState extends State<SignInOutScreen> {
   @override
   void initState() {
     _c = new TextEditingController();
+    enableLServices();
     super.initState();
   }
 
   @override
   void didChangeDependencies() {
-    enableLServices();
     super.didChangeDependencies();
   }
 
   @override
   void dispose() {
-    timer.cancel();
+    if (timer != null) {
+      timer.cancel();
+    }
     super.dispose();
   }
 
@@ -70,7 +72,7 @@ class _SignInOutScreenState extends State<SignInOutScreen> {
       timeOpenSession = DateTime.parse(loginSession.time);
       time = DateTime.now().difference(timeOpenSession).inSeconds;
       if (timer == null && loginSession != null) {
-        timer = Timer.periodic(Duration(minutes: 1), (timer) {
+        timer = Timer.periodic(Duration(minutes: 5), (timer) {
           Provider.of<ApiConnector>(context, listen: false).ping();
           print(DateTime.now());
         });
@@ -243,10 +245,11 @@ class _SignInOutScreenState extends State<SignInOutScreen> {
     mac = await initPlatformState();
     bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
     if (isIOS) {
+      var address;
       print('Is ios running');
       LocationResult result;
-      Geolocation.currentLocation(accuracy: LocationAccuracy.best)
-          .listen((location) async {
+      //  Geolocation.currentLocation(accuracy: LocationAccuracy.best)
+      Geolocation.lastKnownLocation().then((location) async {
         if (location.isSuccessful) {
           print('coordinates found');
           result = location;
@@ -255,15 +258,25 @@ class _SignInOutScreenState extends State<SignInOutScreen> {
           print(loc.longitude);
           //final coordinates = new Coordinates(23.7750021, 90.4242431);
           final coordinates = new Coordinates(loc.latitude, loc.longitude);
-          var address =
-              await Geocoder.google('AIzaSyBpwIv-tJRAzBvtP2XQMOLFZr5a2d7OMgM')
-                  .findAddressesFromCoordinates(coordinates);
-          setState(() {
-            print(address.first);
-            postCode = address.first.postalCode;
-            print(postCode);
-            first = address.first.addressLine;
+          address = await Geocoder.local
+              .findAddressesFromCoordinates(
+                  new Coordinates(loc.latitude, loc.longitude))
+              .catchError((e) async {
+            address =
+                await Geocoder.local.findAddressesFromCoordinates(coordinates);
           });
+          if (address == null) {
+            address =
+                await Geocoder.local.findAddressesFromCoordinates(coordinates);
+          } else {
+            setState(() {
+              print(address.first);
+              postCode = address.first.postalCode;
+              print(postCode);
+              first = address.first.addressLine;
+              if (!mounted) return;
+            });
+          }
         }
       });
     } else {
@@ -372,11 +385,16 @@ class _SignInOutScreenState extends State<SignInOutScreen> {
                   Navigator.of(context).pop();
                   Provider.of<ApiConnector>(context, listen: false)
                       .closeSession(comment)
-                      .then((value) {
+                      .then((value) async {
+                    //   if (value != null) {
                     print(value.toString() + ' from log out');
                     timer.cancel();
-                    Navigator.of(context)
-                        .pushReplacementNamed(LoginScreen.routeName);
+                    // await new Future.delayed(const Duration(seconds: 3))
+                    //   .then((value) {
+                    Navigator.of(context).pushNamed(LoginScreen.routeName);
+                    //   });
+
+                    //   }
                   });
                 }
               },
