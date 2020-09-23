@@ -12,8 +12,7 @@ import 'package:geolocation/geolocation.dart'
         LocationPermission,
         LocationResult,
         LocationPermissionAndroid,
-        LocationPermissionIOS,
-        LocationAccuracy;
+        LocationPermissionIOS;
 import 'package:get_mac/get_mac.dart' show GetMac;
 import 'package:http/http.dart' show post, put;
 

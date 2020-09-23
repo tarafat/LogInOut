@@ -39,7 +39,6 @@ class WellcomeState extends State<WellcomeScreen> {
       ),
       openSettingsIfDenied: true,
     );
-
     return result;
   }
 
