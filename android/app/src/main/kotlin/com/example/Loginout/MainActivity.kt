@@ -1,4 +1,4 @@
-package com.aslmartbd.Loginout;
+package com.asllinout.Loginout;
 
 import io.flutter.embedding.android.FlutterActivity
 
